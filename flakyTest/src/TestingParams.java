@@ -5,10 +5,14 @@ import java.util.Map;
  * Created by Sylvain on 16/11/2016.
  */
 public class TestingParams {
+
 	private Map<Params, Boolean> paramsBooleanMap;
 
 	public TestingParams() {
-		paramsBooleanMap = new HashMap<Params, Boolean>();
+		paramsBooleanMap = new HashMap<>();
+		for (Params p : Params.values()) {
+			put(p, false);
+		}
 	}
 
 	public Boolean get(Params p) {
@@ -19,4 +23,9 @@ public class TestingParams {
 		if (paramsBooleanMap != null)
 			paramsBooleanMap.put(p, b);
 	}
+
+	public Map<Params, Boolean> getParamsBooleanMap() {
+		return paramsBooleanMap;
+	}
+
 }
