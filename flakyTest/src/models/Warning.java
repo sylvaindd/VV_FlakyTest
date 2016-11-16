@@ -1,5 +1,7 @@
 package models;
 
+import resources.HTMLResources;
+
 /**
  * Created by 15004515 on 16/11/2016.
  */
@@ -40,6 +42,7 @@ public class Warning {
     private String description;
     private String title;
     private int line;
+    private Params params;
 
     public Warning(Criticality criticalityriticality, String description, String title, int line) {
         this.criticalityriticality = criticalityriticality;
@@ -50,5 +53,8 @@ public class Warning {
 
     public enum Criticality {
         LOW, MEDIUM, HIGH
+    }
+    public String GenerateHTML(){
+        return HTMLResources.WARNING_START+this.title+HTMLResources.WARNING_END;
     }
 }
