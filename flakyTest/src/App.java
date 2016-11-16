@@ -67,8 +67,9 @@ public class App {
 
 	public static void main(String args[]) {
 		TestingParams testingParams = new TestingParams();
-		testingParams.put(Params.DATE, true);
-		App app = new App("../use-case/src/main/java/", testingParams);
-		app.start();
+        testingParams.put(Params.DATE, true);
+        testingParams.put(Params.FILE, true);
+        App app = new App("../use-case/src/main/java/", testingParams);
+        app.start();
 	}
 }
