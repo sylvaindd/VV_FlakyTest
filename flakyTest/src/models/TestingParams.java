@@ -1,3 +1,7 @@
+package models;
+
+import models.Params;
+
 import java.util.HashMap;
 import java.util.Map;
 
