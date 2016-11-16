@@ -1,3 +1,4 @@
+import models.TestingParams;
 import spoon.Launcher;
 import spoon.SpoonAPI;
 import spoon.reflect.CtModel;
