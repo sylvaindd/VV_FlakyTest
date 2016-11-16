@@ -42,6 +42,8 @@ public class App {
 		final List<CtClass> stateLessClasses = model.getElements(element -> element.getAnnotations().stream()
 				.filter(ctAnnotation -> Objects.equals(ctAnnotation.getType().getSimpleName(), "Stateless")).findAny().map(ctAnnotation -> true).orElse(false));
 
+		OutputPrettyViewerBuilder outputPrettyViewerBuilder = new OutputPrettyViewerBuilder();
+
 		for (CtClass ctClass : stateLessClasses) {
 
 			for (Map.Entry<Params, Boolean> e : testingParams.getParamsBooleanMap().entrySet()) {
@@ -56,7 +58,7 @@ public class App {
 					final List<CtConstructorCall> lst = ctClass.getElements(element -> element.getType().getActualClass().equals(File.class));
 
 					for (CtConstructorCall cc : lst) {
-						System.out.println("Date instanciation in stateless context : " + cc.getPosition());
+						System.out.println("File instanciation in stateless context : " + cc.getPosition());
 					}
 				}
 			}
