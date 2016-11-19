@@ -24,13 +24,7 @@ public class FlakyTestApp {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (UnsupportedLookAndFeelException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
         new FlakyTestApp().displayWindowApp();
@@ -43,7 +37,7 @@ public class FlakyTestApp {
         mJFrame.setSize(400, 300);
         mJFrame.setResizable(false);
         mJFrame.setLocationRelativeTo(null);
-        mJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         mJPanelMain = new JPanel();
         mJPanelMain.setLayout(new BorderLayout());
