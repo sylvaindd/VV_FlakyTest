@@ -6,7 +6,7 @@ import spoon.reflect.code.CtAssignment;
  */
 
 public class AnalyseDateInstances extends AbstractProcessor<CtAssignment<Object, Object>> {
-	public void process(CtAssignment<Object, Object> element) {
-		System.out.println(element);
-	}
+    public void process(CtAssignment<Object, Object> element) {
+        System.out.println(element);
+    }
 }

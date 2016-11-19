@@ -54,7 +54,8 @@ public class Warning {
     public enum Criticality {
         LOW, MEDIUM, HIGH
     }
-    public String GenerateHTML(){
-        return HTMLResources.WARNING_START+this.title+HTMLResources.WARNING_END;
+
+    public String GenerateHTML() {
+        return HTMLResources.WARNING_START + this.title + HTMLResources.WARNING_END;
     }
 }

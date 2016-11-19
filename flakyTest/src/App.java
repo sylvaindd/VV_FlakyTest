@@ -1,3 +1,4 @@
+import models.OutputPrettyViewer;
 import models.Params;
 import models.TestingParams;
 import spoon.Launcher;
@@ -18,58 +19,57 @@ import java.util.Objects;
  */
 public class App {
 
-	private final String		path;
-	private final TestingParams	testingParams;
+    private final String path;
+    private final TestingParams testingParams;
 
-	public App(String path, TestingParams testingParams) {
-		this.path = path;
-		this.testingParams = testingParams;
-	}
+    public App(String path, TestingParams testingParams) {
+        this.path = path;
+        this.testingParams = testingParams;
+    }
 
-	public void start() {
-		if (!(new File(path)).exists())
-			return;
-		final SpoonAPI spoon = new Launcher();
-		spoon.getEnvironment().setNoClasspath(true);
-		spoon.addInputResource(path);
-		final AnalyseDateInstances processor = new AnalyseDateInstances();
-		spoon.addProcessor(processor);
-		spoon.run();
+    public void start() {
+        if (!(new File(path)).exists())
+            return;
+        final SpoonAPI spoon = new Launcher();
+        spoon.getEnvironment().setNoClasspath(true);
+        spoon.addInputResource(path);
+        final AnalyseDateInstances processor = new AnalyseDateInstances();
+        spoon.addProcessor(processor);
+        spoon.run();
 
-		final Factory factory = spoon.getFactory();
+        final Factory factory = spoon.getFactory();
 
-		final CtModel model = factory.getModel();
-		final List<CtClass> stateLessClasses = model.getElements(element -> element.getAnnotations().stream()
-				.filter(ctAnnotation -> Objects.equals(ctAnnotation.getType().getSimpleName(), "Stateless")).findAny().map(ctAnnotation -> true).orElse(false));
+        final CtModel model = factory.getModel();
+        final List<CtClass> stateLessClasses = model.getElements(element -> element.getAnnotations().stream()
+                .filter(ctAnnotation -> Objects.equals(ctAnnotation.getType().getSimpleName(), "Stateless")).findAny().map(ctAnnotation -> true).orElse(false));
 
-		OutputPrettyViewerBuilder outputPrettyViewerBuilder = new OutputPrettyViewerBuilder();
+        OutputPrettyViewer outputPrettyViewerBuilder = new OutputPrettyViewer("results.html");
 
-		for (CtClass ctClass : stateLessClasses) {
+        for (CtClass ctClass : stateLessClasses) {
 
-			for (Map.Entry<Params, Boolean> e : testingParams.getParamsBooleanMap().entrySet()) {
-				if (e.getKey().equals(Params.DATE) && e.getValue()) {
-					final List<CtConstructorCall> lst = ctClass.getElements(element -> element.getType().getActualClass().equals(Date.class));
+            for (Map.Entry<Params, Boolean> e : testingParams.getParamsBooleanMap().entrySet()) {
+                if (e.getKey().equals(Params.DATE) && e.getValue()) {
+                    final List<CtConstructorCall> lst = ctClass.getElements(element -> element.getType().getActualClass().equals(Date.class));
 
-					for (CtConstructorCall cc : lst) {
-						System.out.println("Date instanciation in stateless context : " + cc.getPosition());
-					}
-				}
-				else if (e.getKey().equals(Params.FILE) && e.getValue()) {
-					final List<CtConstructorCall> lst = ctClass.getElements(element -> element.getType().getActualClass().equals(File.class));
+                    for (CtConstructorCall cc : lst) {
+                        System.out.println("Date instanciation in stateless context : " + cc.getPosition());
+                    }
+                } else if (e.getKey().equals(Params.FILE) && e.getValue()) {
+                    final List<CtConstructorCall> lst = ctClass.getElements(element -> element.getType().getActualClass().equals(File.class));
 
-					for (CtConstructorCall cc : lst) {
-						System.out.println("File instanciation in stateless context : " + cc.getPosition());
-					}
-				}
-			}
-		}
-	}
+                    for (CtConstructorCall cc : lst) {
+                        System.out.println("File instanciation in stateless context : " + cc.getPosition());
+                    }
+                }
+            }
+        }
+    }
 
-	public static void main(String args[]) {
-		TestingParams testingParams = new TestingParams();
+    public static void main(String args[]) {
+        TestingParams testingParams = new TestingParams();
         testingParams.put(Params.DATE, true);
         testingParams.put(Params.FILE, true);
         App app = new App("../use-case/src/main/java/", testingParams);
         app.start();
-	}
+    }
 }

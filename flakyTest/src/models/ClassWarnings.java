@@ -14,7 +14,8 @@ public class ClassWarnings {
         this.className = className;
         this.warningList = new ArrayList<>();
     }
-    public void addWarning(Warning warning){
+
+    public void addWarning(Warning warning) {
         this.warningList.add(warning);
     }
 
@@ -25,9 +26,10 @@ public class ClassWarnings {
     public String getClassName() {
         return className;
     }
-    public boolean isWarningLine(int line){
+
+    public boolean isWarningLine(int line) {
         for (Warning warning : warningList) {
-            if(warning.getLine()==line)
+            if (warning.getLine() == line)
                 return true;
         }
         return false;
