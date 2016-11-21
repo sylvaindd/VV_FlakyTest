@@ -54,7 +54,7 @@ public class FlakyTestApp {
         JButton browseButton = new JButton("Browse");
         browseButton.addActionListener(e -> {
             JFileChooser mJFileChooser = new JFileChooser(new File(System.getProperty("user.home")));
-            mJFileChooser.setDialogTitle("Select Location");
+            mJFileChooser.setDialogTitle("Selectionner votre dossier");
             mJFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             mJFileChooser.setAcceptAllFileFilterUsed(true);
 
