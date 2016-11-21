@@ -7,6 +7,7 @@ import spoon.reflect.code.CtConstructorCall;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.factory.Factory;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -71,7 +72,9 @@ public class App {
 		String html = outputPrettyViewerBuilder.GenerateHTMLView();
 
 		try {
-			IOUtils.write(html, new FileOutputStream(new File("result.html")), "UTF-8");
+			File HTMLFile = new File("result.html");
+			IOUtils.write(html, new FileOutputStream(HTMLFile), "UTF-8");
+			Desktop.getDesktop().browse(HTMLFile.toURI());
 		}
 		catch (IOException e) {
 			e.printStackTrace();
