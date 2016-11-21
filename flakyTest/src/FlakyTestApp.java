@@ -94,7 +94,7 @@ public class FlakyTestApp {
         centerPanel.add(mCheckBoxDataInstance);
         mCheckBoxNetworkCalls = new JCheckBox("Analyser les appels web services", true);
         centerPanel.add(mCheckBoxNetworkCalls);
-        mCheckBoxCheckFile = new JCheckBox("Verifier si les fichiers sont valides", true);
+        mCheckBoxCheckFile = new JCheckBox("Analyser les opérations sur les fichiers", true);
         centerPanel.add(mCheckBoxCheckFile);
         mCheckBoxCheckTestAnnotation = new JCheckBox("Verifier si les annotations '@Test' sont présentes", true);
         centerPanel.add(mCheckBoxCheckTestAnnotation);
