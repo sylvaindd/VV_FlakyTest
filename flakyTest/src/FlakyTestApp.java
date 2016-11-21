@@ -47,7 +47,7 @@ public class FlakyTestApp {
     }
 
     private void addFolderChooser() {
-        JLabel labelSelectFolder = new JLabel("Selectionner votre dossier contenant les fichier à tester");
+        JLabel labelSelectFolder = new JLabel("Selectionner votre dossier contenant les fichiers à tester");
         labelSelectFolder.setBorder(new EmptyBorder(0, 0, 10, 0));
         mJTextField = new JTextField();
         JButton browseButton = new JButton("Browse");
@@ -55,7 +55,7 @@ public class FlakyTestApp {
             JFileChooser mJFileChooser = new JFileChooser(new File(System.getProperty("user.home")));
             mJFileChooser.setDialogTitle("Select Location");
             mJFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            mJFileChooser.setAcceptAllFileFilterUsed(false);
+            mJFileChooser.setAcceptAllFileFilterUsed(true);
 
             if (mJFileChooser.showSaveDialog(mJFrame) == JFileChooser.APPROVE_OPTION) {
                 mFileID = mJFileChooser.getSelectedFile().getPath();
