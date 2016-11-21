@@ -35,7 +35,8 @@ public class FlakyTestApp {
 
         mJFrame.setTitle("Flaky Test App");
         mJFrame.setSize(400, 300);
-        mJFrame.setResizable(false);
+        mJFrame.setMinimumSize(new Dimension(400, 255));
+        mJFrame.setResizable(true);
         mJFrame.setLocationRelativeTo(null);
         mJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
