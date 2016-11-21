@@ -36,7 +36,7 @@ public class OutputPrettyViewer {
 			html += HTMLResources.NEW_CLASS_START + classWarnings.getClassName() + HTMLResources.NEW_CLASS_END;
 			// get le code ligne par ligne et ajouter les warnings au début des
 			// lignes correspondante
-			try (Stream<String> lines = Files.lines(Paths.get(classNameToPath(classWarnings.getClassName())), StandardCharsets.UTF_8)) {
+			try (Stream<String> lines = Files.lines(Paths.get(classWarnings.getAbsolutePath()), StandardCharsets.UTF_8)) {
 				int index = 0;
 				int nbLine = 1;
 				html += HTMLResources.NEW_CODE_START;

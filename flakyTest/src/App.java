@@ -49,7 +49,7 @@ public class App {
 
 		OutputPrettyViewer outputPrettyViewerBuilder = new OutputPrettyViewer(path);
 		for (CtClass ctClass : stateLessClasses) {
-			ClassWarnings classWarnings = new ClassWarnings(ctClass.getQualifiedName());
+			ClassWarnings classWarnings = new ClassWarnings(ctClass.getQualifiedName(), ctClass.getPosition().getFile().getAbsolutePath());
 
 			for (Map.Entry<Params, Boolean> e : testingParams.getParamsBooleanMap().entrySet()) {
 				if (e.getKey().equals(Params.DATE) && e.getValue()) {
