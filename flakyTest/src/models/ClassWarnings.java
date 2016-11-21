@@ -30,6 +30,14 @@ public class ClassWarnings {
         return className;
     }
 
+    public Warning GetWarningFromLine(int line) {
+        for (Warning warning : warningList) {
+            if (warning.getLine() == line)
+                return warning;
+        }
+        return null;
+    }
+
     public boolean isWarningLine(int line) {
         for (Warning warning : warningList) {
             if (warning.getLine() == line)

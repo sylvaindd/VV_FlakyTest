@@ -41,8 +41,9 @@ public class OutputPrettyViewer {
 				int nbLine = 1;
 				html += HTMLResources.NEW_CODE_START;
 				for (String line : (Iterable<String>) lines::iterator) {
-					if (classWarnings.isWarningLine(nbLine)) {
-						html += classWarnings.getWarningList().get(index).GenerateHTML() + line + "\n";
+					Warning actual_Warning = classWarnings.GetWarningFromLine(nbLine);
+					if (actual_Warning !=null) {
+						html += actual_Warning.GenerateHTML() + line + "\n";
 						index++;
 					}
 					else {
@@ -54,9 +55,6 @@ public class OutputPrettyViewer {
 			}
 			catch (IOException e) {
 				e.printStackTrace();
-			}
-			for (Warning warning : classWarnings.getWarningList()) {
-				html += warning.GenerateHTML();
 			}
 		}
 		html += HTMLResources.BODY_END;
