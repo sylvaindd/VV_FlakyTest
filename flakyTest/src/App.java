@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class App {
 
-	private final String		path;
+	private String				path;
 	private final TestingParams	testingParams;
 
 	public App(String path, TestingParams testingParams) {
@@ -32,6 +32,8 @@ public class App {
 	public void start() {
 		if (!(new File(path)).exists())
 			return;
+		if (path.charAt(path.length() - 1) != '/')
+			path += "/";
 		final SpoonAPI spoon = new Launcher();
 		spoon.getEnvironment().setNoClasspath(true);
 		spoon.addInputResource(path);
