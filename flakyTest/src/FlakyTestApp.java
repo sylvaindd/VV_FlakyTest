@@ -48,7 +48,7 @@ public class FlakyTestApp {
     }
 
     private void addFolderChooser() {
-        JLabel labelSelectFolder = new JLabel("Selectionner votre dossier contenant les fichiers à tester");
+        JLabel labelSelectFolder = new JLabel("Selectionner le dossier contenant les fichiers à tester");
         labelSelectFolder.setBorder(new EmptyBorder(0, 0, 10, 0));
         mJTextField = new JTextField(new File(System.getProperty("user.home")).getPath());
         JButton browseButton = new JButton("Browse");
@@ -60,7 +60,7 @@ public class FlakyTestApp {
             String filePath = file.getPath();
             if (SystemUtils.IS_OS_WINDOWS) {
                 JFileChooser fileChooser = new JFileChooser(file);
-                fileChooser.setDialogTitle("Selectionner votre dossier");
+                fileChooser.setDialogTitle("Selectionner le dossier");
                 fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 fileChooser.setAcceptAllFileFilterUsed(true);
                 if (fileChooser.showSaveDialog(mJFrame) == JFileChooser.APPROVE_OPTION) {
@@ -112,7 +112,7 @@ public class FlakyTestApp {
         centerPanel.add(mCheckBoxNetworkCalls);
         mCheckBoxCheckFile = new JCheckBox("Verifier si les fichiers sont valides", true);
         centerPanel.add(mCheckBoxCheckFile);
-        mCheckBoxCheckTestAnnotation = new JCheckBox("Verifier si les annotations '@Test' sont présentes", true);
+        mCheckBoxCheckTestAnnotation = new JCheckBox("Verifier si les annotations \"@Test\" sont présentes", true);
         centerPanel.add(mCheckBoxCheckTestAnnotation);
 
         mJPanelMain.add(centerPanel, BorderLayout.CENTER);

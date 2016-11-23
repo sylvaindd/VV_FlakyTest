@@ -9,11 +9,17 @@ public class UseCase2 {
 
     public final static Date NOW = new Date();
 
-    public boolean isBeforeNow(final Date value) {
+	@Test
+    public boolean testIsBeforeNow(final Date value) {
         return value.before(new Date());
     }
 
-    public boolean isAfterNow(final Date value) {
+	@Test2
+    public boolean testIsAfterNow(final Date value) {
+        return value.after(NOW);
+    }
+	
+	public boolean testIsNow(final Date value) {
         return value.after(NOW);
     }
 }
