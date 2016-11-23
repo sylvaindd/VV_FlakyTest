@@ -8,10 +8,13 @@ import java.util.Date;
 public class UseCase2 {
 
     public final static Date NOW = new Date();
+	public Date dateNow = new Date();
 
 	@Test
-    public boolean testIsBeforeNow(final Date value) {
-        return value.before(new Date());
+    public boolean testIsBefore() {
+		Date date = new Date();
+		date.before(date);
+        return date.before(new Date());
     }
 
 	@Test2
@@ -20,6 +23,11 @@ public class UseCase2 {
     }
 	
 	public boolean testIsNow(final Date value) {
+        return value.after(NOW);
+    }
+	
+	@Test
+	public boolean testIsNowWithAnnotation(final Date value) {
         return value.after(NOW);
     }
 }
