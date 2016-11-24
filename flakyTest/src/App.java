@@ -4,14 +4,14 @@ import spoon.Launcher;
 import spoon.SpoonAPI;
 import spoon.reflect.CtModel;
 import spoon.reflect.code.CtConstructorCall;
+import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtAnnotation;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.factory.Factory;
 import spoon.support.reflect.code.CtFieldReadImpl;
-import spoon.support.reflect.code.CtLocalVariableImpl;
-import spoon.support.reflect.code.CtVariableReadImpl;
 import spoon.support.reflect.declaration.CtFieldImpl;
 import spoon.support.reflect.declaration.CtMethodImpl;
+import spoon.support.reflect.reference.CtExecutableReferenceImpl;
 
 import java.awt.*;
 import java.io.File;
@@ -89,39 +89,57 @@ public class App {
 
     private void analyseDateInstance(CtClass ctClass, ClassWarnings classWarnings) {
         final List<String> varFieldBlackList = new ArrayList<>();
-        final List<String> varLocalBlackList = new ArrayList<>();
 
         final List<CtConstructorCall> dateInstancelst = ctClass.getElements(element -> element.getType().getActualClass().equals(Date.class));
         for (CtConstructorCall ctConstructorCall : dateInstancelst) {
             if (ctConstructorCall.getParent() instanceof CtFieldImpl) {
                 varFieldBlackList.add(((CtFieldImpl) ctConstructorCall.getParent()).getSimpleName());
-            } else if (ctConstructorCall.getParent() instanceof CtLocalVariableImpl) {
-                varLocalBlackList.add(((CtLocalVariableImpl) ctConstructorCall.getParent()).getSimpleName());
             }
         }
 
         ctClass.getMethods().stream().filter(ctMethod -> ctMethod instanceof CtMethodImpl).forEach(ctMethod -> {
             CtMethodImpl method = ((CtMethodImpl) ctMethod);
             method.getAnnotations().stream().filter(ctAnnotation -> "Test".equals(ctAnnotation.getType().getSimpleName())).forEach(ctAnnotation -> {
-                final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getActualClass().equals(Date.class));
-                for (CtConstructorCall cc : lst) {
-                    System.out.println("Date instanciation in test context : " + cc.getPosition());
-                    classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.DATE, cc.getPosition().getLine()));
-                }
-
-                final List<CtFieldReadImpl> lstFieldImpl = method.getElements(element -> true);
-                lstFieldImpl.stream().filter(ctFieldRead -> varFieldBlackList.contains(ctFieldRead.getVariable().getSimpleName())).forEach(ctFieldRead -> {
-                    System.out.println("Date instanciation in test context : " + ctFieldRead.getPosition());
-                    classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.DATE, ctFieldRead.getPosition().getLine()));
-                });
-
-                final List<CtVariableReadImpl> lstLocalImpl = method.getElements(element -> true);
-                lstLocalImpl.stream().filter(ctVariableRead -> varLocalBlackList.contains(ctVariableRead.getVariable().getSimpleName())).forEach(ctVariableRead -> {
-                    System.out.println("Date instanciation in test context : " + ctVariableRead.getPosition());
-                    classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.DATE, ctVariableRead.getPosition().getLine()));
-                });
+                addDateInstanceWarnings(ctClass, classWarnings, varFieldBlackList, method);
             });
         });
+    }
+
+    private void addDateInstanceWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, CtMethodImpl method) {
+        final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getActualClass().equals(Date.class));
+        for (CtConstructorCall cc : lst) {
+            System.out.println("Date instanciation in test context : " + cc.getPosition());
+            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.DATE, cc.getPosition().getLine()));
+        }
+
+        final List<CtFieldReadImpl> lstFieldImpl = method.getElements(element -> true);
+        lstFieldImpl.stream().filter(ctFieldRead -> varFieldBlackList.contains(ctFieldRead.getVariable().getSimpleName())).forEach(ctFieldRead -> {
+            System.out.println("Date instanciation in test context : " + ctFieldRead.getPosition());
+            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.DATE, ctFieldRead.getPosition().getLine()));
+        });
+
+        for (CtStatement ctStatement : method.getBody().getStatements()) {
+            List<CtExecutableReferenceImpl> elementsList = ctStatement.getElements(element -> true);
+            for (CtExecutableReferenceImpl ctExecutableReference : elementsList) {
+                String classTypeName = ctExecutableReference.getDeclaringType().getSimpleName();
+                String methodName = ctExecutableReference.getSimpleName();
+                if (classTypeName.equals(ctClass.getSimpleName()) && !methodName.equals(method.getSimpleName())) {
+                    CtMethodImpl underMethod = getMethodFromName(ctClass, methodName);
+                    addDateInstanceWarnings(ctClass, classWarnings, varFieldBlackList, underMethod);
+                }
+            }
+        }
+    }
+
+    private CtMethodImpl getMethodFromName(CtClass ctClass, String methodName) {
+        for (Object ctMethod : ctClass.getMethods()) {
+            if (ctMethod instanceof CtMethodImpl) {
+                if (((CtMethodImpl) ctMethod).getSimpleName().equals(methodName)) {
+                    return (CtMethodImpl) ctMethod;
+                }
+            }
+        }
+        return null;
     }
 
     private void analyseFileOperations(CtClass ctClass, ClassWarnings classWarnings) {

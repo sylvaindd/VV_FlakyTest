@@ -31,6 +31,9 @@ public class HTMLResources {
             "<style>\n" +
             "\t.fa-exclamation-triangle {\n" +
             "\t\tcolor: yellow;\n" +
+            "\t\tposition: absolute;" +
+            "\t\tleft: 3%;" +
+            "\t\tmargin-top: 3px;" +
             "\t}\n" +
             "    .prettyprint ol.linenums > li { list-style-type: decimal; }\n" +
             "</style>\n" +
@@ -54,7 +57,7 @@ public class HTMLResources {
     public static final String NEW_CODE_START = "<div id=\"collapseOne\" class=\"panel-collapse collapse in\">\n" +
             "    \t<div class=\"panel-body\">\n" +
             "            <pre class=\"language-java prettyprint linenums\">\n" +
-            "                <code>";
+            "<code>";
     public static final String WARNING_START = "<i class=\"fa fa-exclamation-triangle\" data-toggle=\"tooltip\" data-html=\"true\" title=\"";
     public static final String WARNING_END = "\" aria-hidden=\"true\"></i>";
 }
