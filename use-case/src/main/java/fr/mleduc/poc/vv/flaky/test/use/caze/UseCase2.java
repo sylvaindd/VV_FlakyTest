@@ -25,10 +25,18 @@ public class UseCase2 {
     }
 
     public boolean testAfterNow(final Date value) {
-        return value.after(NOW);
+        isNow(value);
+        return isNowNow(NOW);
     }
 
     public boolean isNow(final Date value) {
+        testAfterNow(value);
+        return value.after(NOW);
+    }
+
+    public Date isNowNow(final Date value) {
+        testAfterNow(value);
+        isNow(value);
         return value.after(NOW);
     }
 

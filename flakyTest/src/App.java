@@ -90,6 +90,8 @@ public class App {
     private void analyseDateInstance(CtClass ctClass, ClassWarnings classWarnings) {
         final List<String> varFieldBlackList = new ArrayList<>();
 
+        final List<String> methodAlreadyCheck = new ArrayList<>();
+
         final List<CtConstructorCall> dateInstancelst = ctClass.getElements(element -> element.getType().getActualClass().equals(Date.class));
         for (CtConstructorCall ctConstructorCall : dateInstancelst) {
             if (ctConstructorCall.getParent() instanceof CtFieldImpl) {
@@ -100,12 +102,13 @@ public class App {
         ctClass.getMethods().stream().filter(ctMethod -> ctMethod instanceof CtMethodImpl).forEach(ctMethod -> {
             CtMethodImpl method = ((CtMethodImpl) ctMethod);
             method.getAnnotations().stream().filter(ctAnnotation -> "Test".equals(ctAnnotation.getType().getSimpleName())).forEach(ctAnnotation -> {
-                addDateInstanceWarnings(ctClass, classWarnings, varFieldBlackList, method);
+                addDateInstanceWarnings(ctClass, classWarnings, varFieldBlackList, methodAlreadyCheck, method);
             });
         });
     }
 
-    private void addDateInstanceWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, CtMethodImpl method) {
+    private void addDateInstanceWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, List<String> methodAlreadyCheck, CtMethodImpl method) {
+        methodAlreadyCheck.add(method.getSimpleName());
         final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getActualClass().equals(Date.class));
         for (CtConstructorCall cc : lst) {
             System.out.println("Date instanciation in test context : " + cc.getPosition());
@@ -123,9 +126,9 @@ public class App {
             for (CtExecutableReferenceImpl ctExecutableReference : elementsList) {
                 String classTypeName = ctExecutableReference.getDeclaringType().getSimpleName();
                 String methodName = ctExecutableReference.getSimpleName();
-                if (classTypeName.equals(ctClass.getSimpleName()) && !methodName.equals(method.getSimpleName())) {
+                if (classTypeName.equals(ctClass.getSimpleName()) && !methodAlreadyCheck.contains(methodName)) {
                     CtMethodImpl underMethod = getMethodFromName(ctClass, methodName);
-                    addDateInstanceWarnings(ctClass, classWarnings, varFieldBlackList, underMethod);
+                    addDateInstanceWarnings(ctClass, classWarnings, varFieldBlackList, methodAlreadyCheck, underMethod);
                 }
             }
         }
@@ -168,13 +171,5 @@ public class App {
                 }
             }
         });
-    }
-
-    public static void main(String args[]) {
-        TestingParams testingParams = new TestingParams();
-        testingParams.put(Params.DATE, true);
-        testingParams.put(Params.FILE, true);
-        App app = new App("../use-case/src/main/java/", testingParams);
-        app.start();
     }
 }
