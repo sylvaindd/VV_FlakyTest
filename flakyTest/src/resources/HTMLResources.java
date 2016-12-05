@@ -16,6 +16,6 @@ public class HTMLResources {
             "    \t<div class=\"panel-body\">\n" +
             "            <pre class=\"language-java prettyprint linenums\">\n" +
             "<code>";
-    public static final String WARNING_START = "<i class=\"fa fa-exclamation-triangle\" data-toggle=\"tooltip\" data-html=\"true\" title=\"";
+    public static final String WARNING_START = "<i class=\"fa fa-exclamation-triangle\" data-placement=\"right\" data-toggle=\"tooltip\" data-html=\"true\" title=\"";
     public static final String WARNING_END = "\" aria-hidden=\"true\"></i>";
 }
