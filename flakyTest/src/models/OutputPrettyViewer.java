@@ -2,8 +2,6 @@ package models;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import resources.HTMLResources;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,7 +11,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -70,12 +67,12 @@ public class OutputPrettyViewer {
         }
         String content = null;
         try {
-            content = new Scanner(new File(new File("").getAbsolutePath()+"/res/output_template_main.xml")).useDelimiter("\\Z").next();
+            content = new Scanner(new File(new File("").getAbsolutePath() + "/src/res/output_template_main.xml")).useDelimiter("\\Z").next();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return content.replace("!!!CODE!!!",html);
+        return content.replace("!!!CODE!!!", html);
     }
 
     public void GenerateHTMLViewerTemplate() {
@@ -96,17 +93,17 @@ public class OutputPrettyViewer {
 
             Element warning_template = doc.getElementById("warning_template");
 
-            Document generatedDoc =  dBuilder.parse(main_templateFile);
+            Document generatedDoc = dBuilder.parse(main_templateFile);
             Element listClasses = generatedDoc.getElementById("classList_template");
 
             //ajouter une classe
             Document tmpClass = copyDOC(class_template);
             tmpClass.getElementsByTagName("i").item(0);
-           // listClasses.appendChild(tmpClass.getParentNode());
+            // listClasses.appendChild(tmpClass.getParentNode());
 
 
             //ajout d'une classe
-          //  Node class_Warnings = class_template.cloneNode(true);
+            //  Node class_Warnings = class_template.cloneNode(true);
             //class_Warnings.getChildNodes().item(0).getChildNodes().item(0).setNodeValue("NOM DE LA CLASSE");
             //listClasses.appendChild(class_Warnings);
 
@@ -116,7 +113,7 @@ public class OutputPrettyViewer {
         }
     }
 
-    public Document copyDOC(Document doc){
+    public Document copyDOC(Document doc) {
         try {
             TransformerFactory tfactory = TransformerFactory.newInstance();
             Transformer tx = tfactory.newTransformer();
@@ -124,7 +121,7 @@ public class OutputPrettyViewer {
             DOMResult result = new DOMResult();
             tx.transform(source, result);
             return (Document) result.getNode();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
