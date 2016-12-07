@@ -24,105 +24,111 @@ import java.util.stream.Stream;
  * Created by 15004515 on 16/11/2016.
  */
 public class OutputPrettyViewer {
-    private List<ClassWarnings> classWarningsList;
-    private String path;
+	private List<ClassWarnings>	classWarningsList;
+	private String				path;
 
-    public OutputPrettyViewer(String pathFile) {
-        this.classWarningsList = new ArrayList<>();
-        this.path = pathFile;
-    }
+	public OutputPrettyViewer(String pathFile) {
+		this.classWarningsList = new ArrayList<>();
+		this.path = pathFile;
+		HTMLResources.i = 0;
+	}
 
-    public void addClassWarning(ClassWarnings classWarnings) {
-        classWarningsList.add(classWarnings);
-    }
+	public void addClassWarning(ClassWarnings classWarnings) {
+		classWarningsList.add(classWarnings);
+	}
 
-    private String classNameToPath(String className) {
-        return path + className.replace(".", "/") + ".java";
-    }
+	private String classNameToPath(String className) {
+		return path + className.replace(".", "/") + ".java";
+	}
 
-    public String GenerateHTMLView() {
-        String html = "";
-        for (ClassWarnings classWarnings : classWarningsList) {
-            html += HTMLResources.NEW_CLASS_START + classWarnings.getClassName() + HTMLResources.NEW_CLASS_END;
-            // get le code ligne par ligne et ajouter les warnings au début des
-            // lignes correspondante
-            try (Stream<String> lines = Files.lines(Paths.get(classWarnings.getAbsolutePath()), StandardCharsets.UTF_8)) {
-                int index = 0;
-                int nbLine = 1;
-                html += HTMLResources.NEW_CODE_START;
-                for (String line : (Iterable<String>) lines::iterator) {
-                    Warning actual_Warning = classWarnings.GetWarningFromLine(nbLine);
-                    if (actual_Warning != null) {
-                        html += actual_Warning.GenerateHTML() + line + "\n";
-                        index++;
-                    } else {
-                        html += line + "\n";
-                    }
-                    nbLine++;
-                }
-                html += HTMLResources.NEW_CODE_END;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        String content = null;
-        try {
-            content = new Scanner(new File(new File("").getAbsolutePath() + "/src/res/output_template_main.xml")).useDelimiter("\\Z").next();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public String GenerateHTMLView() {
+		String html = "";
+		for (ClassWarnings classWarnings : classWarningsList) {
+			html += HTMLResources.getNewClassStart() + classWarnings.getClassName() + HTMLResources.getNewClassEnd();
+			// get le code ligne par ligne et ajouter les warnings au début des
+			// lignes correspondante
+			try (Stream<String> lines = Files.lines(Paths.get(classWarnings.getAbsolutePath()), StandardCharsets.UTF_8)) {
+				int index = 0;
+				int nbLine = 1;
+				html += HTMLResources.getNewCodeStart();
+				for (String line : (Iterable<String>) lines::iterator) {
+					Warning actual_Warning = classWarnings.GetWarningFromLine(nbLine);
+					if (actual_Warning != null) {
+						html += actual_Warning.GenerateHTML() + line + "\n";
+						index++;
+					}
+					else {
+						html += line + "\n";
+					}
+					nbLine++;
+				}
+				html += HTMLResources.getNewCodeEnd();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			HTMLResources.i++;
+		}
+		String content = null;
+		try {
+			content = new Scanner(new File(new File("").getAbsolutePath() + "/src/res/output_template_main.xml")).useDelimiter("\\Z").next();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return content.replace("!!!CODE!!!", html);
-    }
+		return content.replace("!!!CODE!!!", html);
+	}
 
-    public void GenerateHTMLViewerTemplate() {
+	public void GenerateHTMLViewerTemplate() {
 
-        try {
-            File main_templateFile = new File("input.txt");
-            DocumentBuilderFactory dbFactory
-                    = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(main_templateFile);
-            doc.getDocumentElement().normalize();
+		try {
+			File main_templateFile = new File("input.txt");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(main_templateFile);
+			doc.getDocumentElement().normalize();
 
-            File class_templateFile = new File("input.txt");
-            Document class_template = dBuilder.parse(class_templateFile);
+			File class_templateFile = new File("input.txt");
+			Document class_template = dBuilder.parse(class_templateFile);
 
-            File warnining_templateFile = new File("input.txt");
-            Document warnining_template = dBuilder.parse(warnining_templateFile);
+			File warnining_templateFile = new File("input.txt");
+			Document warnining_template = dBuilder.parse(warnining_templateFile);
 
-            Element warning_template = doc.getElementById("warning_template");
+			Element warning_template = doc.getElementById("warning_template");
 
-            Document generatedDoc = dBuilder.parse(main_templateFile);
-            Element listClasses = generatedDoc.getElementById("classList_template");
+			Document generatedDoc = dBuilder.parse(main_templateFile);
+			Element listClasses = generatedDoc.getElementById("classList_template");
 
-            //ajouter une classe
-            Document tmpClass = copyDOC(class_template);
-            tmpClass.getElementsByTagName("i").item(0);
-            // listClasses.appendChild(tmpClass.getParentNode());
+			// ajouter une classe
+			Document tmpClass = copyDOC(class_template);
+			tmpClass.getElementsByTagName("i").item(0);
+			// listClasses.appendChild(tmpClass.getParentNode());
 
+			// ajout d'une classe
+			// Node class_Warnings = class_template.cloneNode(true);
+			// class_Warnings.getChildNodes().item(0).getChildNodes().item(0).setNodeValue("NOM
+			// DE LA CLASSE");
+			// listClasses.appendChild(class_Warnings);
 
-            //ajout d'une classe
-            //  Node class_Warnings = class_template.cloneNode(true);
-            //class_Warnings.getChildNodes().item(0).getChildNodes().item(0).setNodeValue("NOM DE LA CLASSE");
-            //listClasses.appendChild(class_Warnings);
+			// ajout d'un warning
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-            //ajout d'un warning
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Document copyDOC(Document doc) {
-        try {
-            TransformerFactory tfactory = TransformerFactory.newInstance();
-            Transformer tx = tfactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            DOMResult result = new DOMResult();
-            tx.transform(source, result);
-            return (Document) result.getNode();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	public Document copyDOC(Document doc) {
+		try {
+			TransformerFactory tfactory = TransformerFactory.newInstance();
+			Transformer tx = tfactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			DOMResult result = new DOMResult();
+			tx.transform(source, result);
+			return (Document) result.getNode();
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
 }

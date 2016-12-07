@@ -127,8 +127,8 @@ public class FlakyTestApp {
             testingParams.put(Params.FILE, mCheckBoxCheckFile.isSelected());
             testingParams.put(Params.ANNOTATIONS, mCheckBoxCheckTestAnnotation.isSelected());
 
-            //new App(mJTextField.getText(), testingParams).start();
-            new App("C:\\Users\\Guillaume\\GoogleDrive\\Mes_documents\\Doc_ESIR\\3eme_Annee\\VV\\project\\VV_FlakyTest\\use-case", testingParams).start();
+            new App(mJTextField.getText(), testingParams).start();
+//            new App("C:\\Users\\Guillaume\\GoogleDrive\\Mes_documents\\Doc_ESIR\\3eme_Annee\\VV\\project\\VV_FlakyTest\\use-case", testingParams).start();
         });
 
         mJPanelMain.add(startButton, BorderLayout.SOUTH);

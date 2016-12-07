@@ -7,45 +7,45 @@ import resources.HTMLResources;
  */
 public class Warning {
 
-    public enum Criticality {
-        LOW, MEDIUM, HIGH
-    }
+	public enum Criticality {
+		LOW, MEDIUM, HIGH
+	}
 
-    private Criticality criticalityriticality;
-    private int line;
-    private Params params;
+	private Criticality	criticalityriticality;
+	private int			line;
+	private Params		params;
 
-    public Warning(Criticality criticalityriticality, Params params, int line) {
-        this.criticalityriticality = criticalityriticality;
-        this.params = params;
-        this.line = line;
-    }
+	public Warning(Criticality criticalityriticality, Params params, int line) {
+		this.criticalityriticality = criticalityriticality;
+		this.params = params;
+		this.line = line;
+	}
 
-    public String GenerateHTML() {
-        return HTMLResources.WARNING_START + this.getTitle() + "<br />" + this.getDescription() + HTMLResources.WARNING_END;
-    }
+	public String GenerateHTML() {
+		return HTMLResources.getWarningStart() + this.getTitle() + "<br />" + this.getDescription() + HTMLResources.getWarningEnd();
+	}
 
-    public Criticality getCriticalityriticality() {
-        return criticalityriticality;
-    }
+	public Criticality getCriticalityriticality() {
+		return criticalityriticality;
+	}
 
-    public void setCriticalityriticality(Criticality criticalityriticality) {
-        this.criticalityriticality = criticalityriticality;
-    }
+	public void setCriticalityriticality(Criticality criticalityriticality) {
+		this.criticalityriticality = criticalityriticality;
+	}
 
-    public String getDescription() {
-        return params.getDescription();
-    }
+	public String getDescription() {
+		return params.getDescription();
+	}
 
-    public String getTitle() {
-        return params.getName();
-    }
+	public String getTitle() {
+		return params.getName();
+	}
 
-    public int getLine() {
-        return line;
-    }
+	public int getLine() {
+		return line;
+	}
 
-    public void setLine(int line) {
-        this.line = line;
-    }
+	public void setLine(int line) {
+		this.line = line;
+	}
 }
