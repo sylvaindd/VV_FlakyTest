@@ -1,4 +1,4 @@
-package models;
+package com.models;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -71,7 +71,7 @@ public class OutputPrettyViewer {
 		}
 		String content = null;
 		try {
-			content = new Scanner(new File(new File("").getAbsolutePath() + "/src/res/output_template_main.xml")).useDelimiter("\\Z").next();
+			content = new Scanner(new File(new File("").getAbsolutePath() + "/src/com/res/output_template_main.xml")).useDelimiter("\\Z").next();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -130,5 +130,9 @@ public class OutputPrettyViewer {
 		catch (Exception e) {
 			return null;
 		}
+	}
+
+	public List<ClassWarnings> getClassWarningsList() {
+		return classWarningsList;
 	}
 }
