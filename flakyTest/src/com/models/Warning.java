@@ -48,4 +48,8 @@ public class Warning {
 	public void setLine(int line) {
 		this.line = line;
 	}
+
+	public Params getParams() {
+		return params;
+	}
 }
