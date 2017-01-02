@@ -1,7 +1,10 @@
 package com;
 
 import com.models.*;
+import com.sun.deploy.net.HttpRequest;
+import com.sun.deploy.net.HttpResponse;
 import org.apache.commons.io.IOUtils;
+import org.apache.tools.ant.taskdefs.condition.Http;
 import spoon.Launcher;
 import spoon.SpoonAPI;
 import spoon.reflect.CtModel;
@@ -10,10 +13,13 @@ import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtAnnotation;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.factory.Factory;
+import spoon.reflect.visitor.Filter;
 import spoon.support.reflect.code.CtFieldReadImpl;
 import spoon.support.reflect.declaration.CtFieldImpl;
 import spoon.support.reflect.declaration.CtMethodImpl;
 import spoon.support.reflect.reference.CtExecutableReferenceImpl;
+import sun.net.www.http.HttpClient;
+import sun.net.www.protocol.http.HttpURLConnection;
 
 import java.awt.*;
 import java.io.File;
@@ -67,7 +73,10 @@ public class App {
 					analyseTypeInstance(ctClass, classWarnings, Date.class);
 				}
 				else if (e.getKey().equals(Params.NETWORK) && e.getValue()) {
-					// TODO
+					analyseTypeInstance(ctClass, classWarnings, HttpClient.class);
+					analyseTypeInstance(ctClass, classWarnings, HttpURLConnection.class);
+					analyseTypeInstance(ctClass, classWarnings, HttpResponse.class);
+					analyseTypeInstance(ctClass, classWarnings, HttpRequest.class);
 				}
 				else if (e.getKey().equals(Params.FILE) && e.getValue()) {
 					analyseTypeInstance(ctClass, classWarnings, File.class);
@@ -97,7 +106,7 @@ public class App {
 
 		final List<String> methodAlreadyCheck = new ArrayList<>();
 
-		final List<CtConstructorCall<T>> typeInstancelst = ctClass.getElements(element -> element.getType().getActualClass().equals(cl));
+		final List<CtConstructorCall<T>> typeInstancelst = ctClass.getElements(element -> element.getType().getQualifiedName().equals(cl.getCanonicalName()));
 		for (CtConstructorCall<T> ctConstructorCall : typeInstancelst) {
 			if (ctConstructorCall.getParent() instanceof CtFieldImpl) {
 				varFieldBlackList.add(((CtFieldImpl) ctConstructorCall.getParent()).getSimpleName());
@@ -114,7 +123,7 @@ public class App {
 
 	private <T> void addTypeInstanceWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, List<String> methodAlreadyCheck, CtMethodImpl method, Class<T> cl) {
 		methodAlreadyCheck.add(method.getSimpleName());
-		final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getActualClass().equals(cl));
+		final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getQualifiedName().equals(cl.getCanonicalName()));
 		for (CtConstructorCall cc : lst) {
 			System.out.println(cl + " instanciation in test context : " + cc.getPosition());
 			classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cc.getPosition().getLine()));
