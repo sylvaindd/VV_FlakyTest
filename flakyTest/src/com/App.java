@@ -93,7 +93,9 @@ public class App {
 
 		try {
 			File HTMLFile = new File("result.html");
-			IOUtils.write(html, new FileOutputStream(HTMLFile), "UTF-8");
+            FileOutputStream fileOutputStream = new FileOutputStream(HTMLFile);
+            IOUtils.write(html, fileOutputStream, "UTF-8");
+            fileOutputStream.close();
 			Desktop.getDesktop().browse(HTMLFile.toURI());
 		}
 		catch (IOException e) {
