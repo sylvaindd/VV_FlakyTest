@@ -1,8 +1,8 @@
 package com.models;
 
+import com.utils.HTMLResources;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import resources.HTMLResources;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
