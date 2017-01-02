@@ -1,6 +1,6 @@
 package com.models;
 
-import com.utils.HTMLResources;
+import com.resources.HTMLResources;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
