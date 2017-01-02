@@ -1,6 +1,7 @@
 package com.models;
 
-import resources.HTMLResources;
+
+import com.utils.HTMLResources;
 
 /**
  * Created by 15004515 on 16/11/2016.
