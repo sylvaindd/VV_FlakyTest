@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * Created by thoma on 03/01/2017.
  */
-public class TestUnitaires {
+public class TestUnitairesCounter {
     OutputPrettyViewer outputPrettyViewerBuilder;
     @Before
     public void prepareTest (){
@@ -81,7 +81,7 @@ public class TestUnitaires {
     @Test
     public void checkDateCount() throws Exception {
         int dateCounter = checkDate();
-        Assert.assertEquals("dateCounter "+dateCounter,2,checkDate());
+        Assert.assertEquals("dateCounter "+dateCounter,4,checkDate());
 
     }
     @Test
@@ -94,7 +94,7 @@ public class TestUnitaires {
     public void checkFileCount() throws Exception {
 
         int fileCounter = checkFile();
-        Assert.assertEquals("fileCounter "+fileCounter,2,fileCounter);
+        Assert.assertEquals("fileCounter "+fileCounter,4,fileCounter);
 
     }
     @Test
@@ -120,5 +120,57 @@ public class TestUnitaires {
     public void checkWebServiceCount() throws Exception {
         int webserviceCounter = checkWebService();
         Assert.assertEquals("Webservicecounter "+webserviceCounter,5,webserviceCounter);
+    }
+    @Test public void checkWebServiceOff(){
+        TestingParams testingParams = new TestingParams();
+        testingParams.put(Params.DATE, true);
+        testingParams.put(Params.NETWORK, false);
+        testingParams.put(Params.FILE, true);
+        testingParams.put(Params.ANNOTATIONS, true);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        app.start();
+
+        outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
+        int webserviceCounter = checkWebService();
+        Assert.assertEquals("webserviceCounter"+webserviceCounter,0,webserviceCounter);
+    }
+    @Test public void checkDateOff(){
+        TestingParams testingParams = new TestingParams();
+        testingParams.put(Params.DATE, false);
+        testingParams.put(Params.NETWORK, true);
+        testingParams.put(Params.FILE, true);
+        testingParams.put(Params.ANNOTATIONS, true);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        app.start();
+
+        outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
+        int checkDate = checkDate();
+        Assert.assertEquals("checkDate"+checkDate,0,checkDate);
+    }
+    @Test public void checkFileOff(){
+        TestingParams testingParams = new TestingParams();
+        testingParams.put(Params.DATE, true);
+        testingParams.put(Params.NETWORK, true);
+        testingParams.put(Params.FILE, false);
+        testingParams.put(Params.ANNOTATIONS, true);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        app.start();
+
+        outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
+        int checkFile = checkFile();
+        Assert.assertEquals("checkFile"+checkFile,0,checkFile);
+    }
+    @Test public void checkAnnotationOff(){
+        TestingParams testingParams = new TestingParams();
+        testingParams.put(Params.DATE, true);
+        testingParams.put(Params.NETWORK, true);
+        testingParams.put(Params.FILE, true);
+        testingParams.put(Params.ANNOTATIONS, false);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        app.start();
+
+        outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
+        int checkAnnotation = checkAnnotation();
+        Assert.assertEquals("checkAnnotation"+checkAnnotation,0,checkAnnotation);
     }
 }
