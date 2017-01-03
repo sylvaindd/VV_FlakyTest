@@ -1,8 +1,11 @@
-.idea/
+**/.idea/
 .idea/workspace.xml
 lib/
 out/
 spooned/
 workspace.xml
-flakyTest.iml
+**/flakyTest.iml
 result.html
+.DS_Store
+src/main/java/.DS_Store
+src/main/java/com/.DS_Store
