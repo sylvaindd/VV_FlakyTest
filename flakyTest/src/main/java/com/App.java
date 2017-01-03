@@ -131,20 +131,27 @@ public class App {
         methodAlreadyCheck.add(method.getSimpleName());
         final List<CtTypeReferenceImpl> lst = method.getElements(element -> element.getSimpleName().equals(cl.getSimpleName()));
         for (CtTypeReferenceImpl cTR : lst) {
-            System.out.println(cl + " type use in test context : " + cTR.getPosition());
-            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTR.getPosition().getLine()));
+            if(cTR.getPosition().getSourceStart() != -1) {
+                System.out.println(cl + " type use in test context : " + cTR.getPosition());
+                classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTR.getPosition().getLine()));
+            }
         }
 
         final List<CtTypeAccessImpl> lst2 = method.getElements(element -> element.getAccessedType().getSimpleName().equals(cl.getSimpleName()));
         for (CtTypeAccessImpl cTA : lst2) {
-            System.out.println(cl + " type use in test context : " + cTA.getPosition());
-            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTA.getPosition().getLine()));
+            if(cTA.getPosition().getSourceStart() != -1) {
+                System.out.println(cl + " type use in test context : " + cTA.getPosition());
+                classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTA.getPosition().getLine()));
+            }
+
         }
 
         final List<CtFieldReadImpl> lstFieldImpl = method.getElements(element -> true);
         lstFieldImpl.stream().filter(ctFieldRead -> varFieldBlackList.contains(ctFieldRead.getVariable().getSimpleName())).forEach(ctFieldRead -> {
-            System.out.println(cl + " type use in test context : " + ctFieldRead.getPosition());
-            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), ctFieldRead.getPosition().getLine()));
+            if(ctFieldRead.getPosition().getSourceStart() != -1) {
+                System.out.println(cl + " type use in test context : " + ctFieldRead.getPosition());
+                classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), ctFieldRead.getPosition().getLine()));
+            }
         });
 
         for (CtStatement ctStatement : method.getBody().getStatements()) {
