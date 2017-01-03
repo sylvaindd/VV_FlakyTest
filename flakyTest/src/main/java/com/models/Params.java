@@ -31,7 +31,8 @@ public enum Params {
 				return FILE;
 			case "HttpClient":
 			case "HttpURLConnection":
-			case "HttpResponse":
+            case "HttpResponse":
+            case "ClientResponse":
 			case "HttpRequest":
 			case "WebServiceClient":
 				return NETWORK;

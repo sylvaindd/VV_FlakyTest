@@ -23,7 +23,13 @@
 
     <script>
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $("#closeAll").click(function () {
+                $("a").each(function(){
+                    $(this).click();
+                });
+            });
         });
     </script>
     <style>
@@ -55,7 +61,8 @@
 </head>
 
 <body>
-
+    <button id="closeAll">Toggle All</button>
+    <br>
     !!!CODE!!!
 </body>
 </html>
