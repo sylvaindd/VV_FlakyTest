@@ -52,7 +52,7 @@ public class OutputPrettyViewer {
 				int nbLine = 1;
 				html += HTMLResources.getNewCodeStart();
 				for (String line : (Iterable<String>) lines::iterator) {
-					Warning actual_Warning = classWarnings.GetWarningFromLine(nbLine);
+					Warning actual_Warning = classWarnings.getWarningFromLine(nbLine);
 					if (actual_Warning != null) {
 						html += actual_Warning.GenerateHTML(actual_Warning.getCriticalityriticality()) + line + "\n";
 						index++;

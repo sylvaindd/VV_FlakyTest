@@ -18,7 +18,8 @@ public class ClassWarnings {
 	}
 
 	public void addWarning(Warning warning) {
-		this.warningList.add(warning);
+		if(getWarningFromLine(warning.getLine()) == null)
+			this.warningList.add(warning);
 	}
 
 	public List<Warning> getWarningList() {
@@ -29,7 +30,7 @@ public class ClassWarnings {
 		return className;
 	}
 
-	public Warning GetWarningFromLine(int line) {
+	public Warning getWarningFromLine(int line) {
 		for (Warning warning : warningList) {
 			if (warning.getLine() == line)
 				return warning;
