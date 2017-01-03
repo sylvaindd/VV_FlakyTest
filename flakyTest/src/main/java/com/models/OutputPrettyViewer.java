@@ -71,7 +71,7 @@ public class OutputPrettyViewer {
 		}
 		String content = null;
 		try {
-			content = new Scanner(new File(new File("").getAbsolutePath() + "/src/main/java/com/res/output_template_main.xml")).useDelimiter("\\Z").next();
+			content = new Scanner(new File(new File("").getAbsolutePath() + "/src/main/java/com/res/output_template_main.html")).useDelimiter("\\Z").next();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
