@@ -63,7 +63,9 @@ public class OutputPrettyViewer {
 		}
 		String content = null;
 		try {
-			content = new Scanner(new File(new File("").getAbsolutePath() + "/src/main/java/com/res/output_template_main.html")).useDelimiter("\\Z").next();
+			Scanner scanner = new Scanner(new File(new File("").getAbsolutePath() + "/src/main/java/com/res/output_template_main.html"));
+			content = scanner.useDelimiter("\\Z").next();
+			scanner.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
