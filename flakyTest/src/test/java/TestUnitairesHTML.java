@@ -1,11 +1,7 @@
-import com.App;
-import com.models.OutputPrettyViewer;
-import com.models.Params;
-import com.models.TestingParams;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.w3c.tidy.Tidy;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -13,12 +9,10 @@ import java.io.InputStream;
 /**
  * Created by thoma on 03/01/2017.
  */
-public class TestUnitairesHTML extends AbstractTestUnitaires {
+public class TestUnitairesHTML extends AbstractTestUnitaires{
 
-        outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
-    }
     @Test
-    public void HTMLisCorrect() {
+    public void HTMLisCorrect(){
         Tidy tidy = new Tidy();
         tidy.setQuiet(true);
         tidy.setErrout(null);
