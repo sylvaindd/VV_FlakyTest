@@ -1,15 +1,7 @@
 package com.models;
 
 import com.resources.HTMLResources;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -78,58 +70,6 @@ public class OutputPrettyViewer {
 		}
 
 		return content.replace("!!!CODE!!!", html);
-	}
-
-	public void GenerateHTMLViewerTemplate() {
-
-		try {
-			File main_templateFile = new File("input.txt");
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(main_templateFile);
-			doc.getDocumentElement().normalize();
-
-			File class_templateFile = new File("input.txt");
-			Document class_template = dBuilder.parse(class_templateFile);
-
-			File warnining_templateFile = new File("input.txt");
-			Document warnining_template = dBuilder.parse(warnining_templateFile);
-
-			Element warning_template = doc.getElementById("warning_template");
-
-			Document generatedDoc = dBuilder.parse(main_templateFile);
-			Element listClasses = generatedDoc.getElementById("classList_template");
-
-			// ajouter une classe
-			Document tmpClass = copyDOC(class_template);
-			tmpClass.getElementsByTagName("i").item(0);
-			// listClasses.appendChild(tmpClass.getParentNode());
-
-			// ajout d'une classe
-			// Node class_Warnings = class_template.cloneNode(true);
-			// class_Warnings.getChildNodes().item(0).getChildNodes().item(0).setNodeValue("NOM
-			// DE LA CLASSE");
-			// listClasses.appendChild(class_Warnings);
-
-			// ajout d'un warning
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public Document copyDOC(Document doc) {
-		try {
-			TransformerFactory tfactory = TransformerFactory.newInstance();
-			Transformer tx = tfactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			DOMResult result = new DOMResult();
-			tx.transform(source, result);
-			return (Document) result.getNode();
-		}
-		catch (Exception e) {
-			return null;
-		}
 	}
 
 	public List<ClassWarnings> getClassWarningsList() {
