@@ -14,6 +14,8 @@ public class UseCase2 {
 
     @Test
     public boolean testIsBefore() {
+        System.out.println(File.separator);
+        System.out.println(dateNow.toString());
         Date date = new Date();
         value.after(NOW);
         date.before(date);
