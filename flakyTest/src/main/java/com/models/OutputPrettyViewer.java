@@ -54,7 +54,7 @@ public class OutputPrettyViewer {
 				for (String line : (Iterable<String>) lines::iterator) {
 					Warning actual_Warning = classWarnings.GetWarningFromLine(nbLine);
 					if (actual_Warning != null) {
-						html += actual_Warning.GenerateHTML() + line + "\n";
+						html += actual_Warning.GenerateHTML(actual_Warning.getCriticalityriticality()) + line + "\n";
 						index++;
 					}
 					else {

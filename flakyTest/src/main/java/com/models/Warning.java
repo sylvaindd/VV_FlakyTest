@@ -8,7 +8,20 @@ import com.resources.HTMLResources;
 public class Warning {
 
 	public enum Criticality {
-		LOW, MEDIUM, HIGH
+		LOW, MEDIUM, HIGH;
+
+		public String getColor() {
+			switch (this){
+				case LOW:
+					return "yellow";
+				case MEDIUM:
+					return "orange";
+				case HIGH:
+					return "red";
+				default:
+					return "yellow";
+			}
+		}
 	}
 
 	private Criticality	criticalityriticality;
@@ -21,8 +34,8 @@ public class Warning {
 		this.line = line;
 	}
 
-	public String GenerateHTML() {
-		return HTMLResources.getWarningStart() + this.getTitle() + "<br />" + this.getDescription() + HTMLResources.getWarningEnd();
+	public String GenerateHTML(Criticality criticality) {
+		return HTMLResources.getWarningStart(criticality.getColor()) + this.getTitle() + "<br />" + this.getDescription() + HTMLResources.getWarningEnd();
 	}
 
 	public Criticality getCriticalityriticality() {

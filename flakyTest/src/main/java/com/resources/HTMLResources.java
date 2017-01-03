@@ -10,8 +10,8 @@ public class HTMLResources {
 		return "\t<a data-toggle=\"collapse\" data-target=\"#collapse" + i + "\" href=\"#collapse" + i + "\">\n" + "    \t<h2>";
 	}
 
-	public static String getWarningStart() {
-		return "<i class=\"fa fa-exclamation-triangle\" data-placement=\"right\" data-toggle=\"tooltip\" data-html=\"true\" title=\"";
+	public static String getWarningStart(String color) {
+		return "<i class=\"fa fa-exclamation-triangle " + color + "\" data-placement=\"right\" data-toggle=\"tooltip\" data-html=\"true\" title=\"";
 	}
 
 	public static String getWarningEnd() {

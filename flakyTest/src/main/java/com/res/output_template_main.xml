@@ -27,18 +27,27 @@
     </script>
     <style>
         .fa-exclamation-triangle {
-        color: yellow;
-        position: absolute;
-        left: 3%;
-        margin-top: 3px;
+            position: absolute;
+            left: 3%;
+            margin-top: 3px;
+        }
+
+        .fa-exclamation-triangle.yellow {
+            color: yellow;
+        }
+        .fa-exclamation-triangle.orange {
+            color: orange;
+        }
+        .fa-exclamation-triangle.red {
+            color: red;
         }
 
         .prettyprint ol.linenums > li {
-        list-style-type: decimal;
+            list-style-type: decimal;
         }
 
         ol.linenums {
-        margin-left: 10px;
+            margin-left: 10px;
         }
     </style>
 
