@@ -13,14 +13,17 @@ import java.util.Date;
  * Created by mleduc on 26/09/16.
  */
 public class TestUnitairesRessources {
-	private File file1 = new File();
-	private Date date1 = new Date();
+    private File file1 = new File();
+    private Date date1 = new Date();
+
     public void testNoAnnotation() {
         assert true;
     }
+
     public void testNoAnnotation2() {
         assert true;
     }
+
     @Test
     public void testAnnotation() {
         assert true;
@@ -29,24 +32,25 @@ public class TestUnitairesRessources {
     @Test
     public void testDate() {
         Date date = new Date();
-		getDate();
-		Date date2= date1;
+        getDate();
+        Date date2 = date1;
     }
 
     @Test
     public void testFile() {
         File file = new File();
-		getFile();
-		File file2 = file1;
+        getFile();
+        File file2 = file1;
     }
 
-	public File getFile(){
-		return new File();
-	}
-	
-	public Date getDate(){
-		return new Date();
-	}
+    public File getFile() {
+        return new File();
+    }
+
+    public Date getDate() {
+        return new Date();
+    }
+
     @Test
     public void testWebserver() {
         HttpURLConnection httpURLConnection = new HttpURLConnection();
@@ -55,6 +59,4 @@ public class TestUnitairesRessources {
         HttpRequest httpRequest = new HttpRequest();
         WebServiceClient webServiceClient = new WebServiceClient();
     }
-
-
 }
