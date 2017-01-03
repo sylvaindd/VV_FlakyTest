@@ -112,7 +112,7 @@ public class App {
             }
         }
 
-        final List<CtTypeAccessImpl<T>> typeAccessLst = ctClass.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
+        final List<CtTypeAccessImpl<T>> typeAccessLst = ctClass.getElements(element -> element.getAccessedType().getSimpleName().equals(cl.getSimpleName()));
         for (CtTypeAccessImpl<T> ctTypeAccess : typeAccessLst) {
             if (ctTypeAccess.getParent() instanceof CtFieldImpl) {
                 varFieldBlackList.add(((CtFieldImpl) ctTypeAccess.getParent()).getSimpleName());
@@ -135,7 +135,7 @@ public class App {
             classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTR.getPosition().getLine()));
         }
 
-        final List<CtTypeAccessImpl> lst2 = method.getElements(element -> element.type.getSimpleName().equals(cl.getSimpleName()));
+        final List<CtTypeAccessImpl> lst2 = method.getElements(element -> element.getAccessedType().getSimpleName().equals(cl.getSimpleName()));
         for (CtTypeAccessImpl cTA : lst2) {
             System.out.println(cl + " type use in test context : " + cTA.getPosition());
             classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTA.getPosition().getLine()));
