@@ -39,10 +39,16 @@ public class App {
     private String path;
     private final TestingParams testingParams;
     private OutputPrettyViewer outputPrettyViewerBuilder;
+    private boolean displayResult;
 
     public App(String path, TestingParams testingParams) {
+        this(path, testingParams, true);
+    }
+
+    public App(String path, TestingParams testingParams, boolean displayResult) {
         this.path = path;
         this.testingParams = testingParams;
+        this.displayResult = displayResult;
     }
 
     public void start() {
