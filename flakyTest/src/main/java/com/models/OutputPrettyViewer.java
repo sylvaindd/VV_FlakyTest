@@ -32,7 +32,7 @@ public class OutputPrettyViewer {
     public String GenerateHTMLView() {
         String html = "";
         for (ClassWarnings classWarnings : classWarningsList) {
-            html += HTMLResources.getNewClassStart() + classWarnings.getClassName() + HTMLResources.getNewClassEnd();
+            html += HTMLResources.getNewClassStart() + classWarnings.getClassName() + " nb : " + classWarnings.getWarningList().size() + HTMLResources.getNewClassEnd();
             // get le code ligne par ligne et ajouter les warnings au début des
             // lignes correspondante
             try (Stream<String> lines = Files.lines(Paths.get(classWarnings.getAbsolutePath()), StandardCharsets.UTF_8)) {
