@@ -108,11 +108,11 @@ public class FlakyTestApp {
         JPanel centerPanel = new JPanel(new GridLayout(5, 1));
         centerPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
 
-        mCheckBoxDataInstance = new JCheckBox("Analyser les instances de date", true);
+        mCheckBoxDataInstance = new JCheckBox("Analyser l'utilisation des dates", true);
         centerPanel.add(mCheckBoxDataInstance);
-        mCheckBoxNetworkCalls = new JCheckBox("Analyser les appels web services", true);
+        mCheckBoxNetworkCalls = new JCheckBox("Analyser l'utilisation des web services", true);
         centerPanel.add(mCheckBoxNetworkCalls);
-        mCheckBoxCheckFile = new JCheckBox("Verifier si les fichiers sont valides", true);
+        mCheckBoxCheckFile = new JCheckBox("Analyser l'utilisation des fichiers", true);
         centerPanel.add(mCheckBoxCheckFile);
         mCheckBoxCheckTestAnnotation = new JCheckBox("Verifier si les annotations \"@Test\" sont présentes", true);
         centerPanel.add(mCheckBoxCheckTestAnnotation);
@@ -121,7 +121,7 @@ public class FlakyTestApp {
     }
 
     private void addStartButton() {
-        JButton startButton = new JButton("Démarrer les tests");
+        JButton startButton = new JButton("Démarrer l'analyse");
         startButton.addActionListener(e -> {
             TestingParams testingParams = new TestingParams();
             testingParams.put(Params.DATE, mCheckBoxDataInstance.isSelected());
