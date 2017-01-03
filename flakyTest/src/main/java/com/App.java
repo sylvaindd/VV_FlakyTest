@@ -19,6 +19,7 @@ import spoon.support.reflect.reference.CtExecutableReferenceImpl;
 import sun.net.www.http.HttpClient;
 import sun.net.www.protocol.http.HttpURLConnection;
 
+import javax.xml.ws.WebServiceClient;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,6 +75,7 @@ public class App {
                     analyseTypeInstance(ctClass, classWarnings, HttpURLConnection.class);
                     analyseTypeInstance(ctClass, classWarnings, HttpResponse.class);
                     analyseTypeInstance(ctClass, classWarnings, HttpRequest.class);
+                    analyseTypeInstance(ctClass, classWarnings, WebServiceClient.class);
                 } else if (e.getKey().equals(Params.FILE) && e.getValue()) {
                     analyseTypeInstance(ctClass, classWarnings, File.class);
                 } else if (e.getKey().equals(Params.ANNOTATIONS) && e.getValue()) {
@@ -102,7 +104,7 @@ public class App {
 
         final List<String> methodAlreadyCheck = new ArrayList<>();
 
-        final List<CtConstructorCall<T>> typeInstancelst = ctClass.getElements(element -> element.getType().getQualifiedName().equals(cl.getCanonicalName()));
+        final List<CtConstructorCall<T>> typeInstancelst = ctClass.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
         for (CtConstructorCall<T> ctConstructorCall : typeInstancelst) {
             if (ctConstructorCall.getParent() instanceof CtFieldImpl) {
                 varFieldBlackList.add(((CtFieldImpl) ctConstructorCall.getParent()).getSimpleName());
@@ -119,7 +121,7 @@ public class App {
 
     private <T> void addTypeInstanceWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, List<String> methodAlreadyCheck, CtMethodImpl method, Class<T> cl) {
         methodAlreadyCheck.add(method.getSimpleName());
-        final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getQualifiedName().equals(cl.getCanonicalName()));
+        final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
         for (CtConstructorCall cc : lst) {
             System.out.println(cl + " instanciation in test context : " + cc.getPosition());
             classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cc.getPosition().getLine()));
