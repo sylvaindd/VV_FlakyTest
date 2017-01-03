@@ -27,19 +27,20 @@ public enum Params {
     }
 
     public static Params getParamsForClass(String className) {
-        switch (className) {
-            case "Date":
-                return DATE;
-            case "File":
-                return FILE;
-            case "HttpClient":
-            case "HttpURLConnection":
+		switch (className){
+			case "Date":
+				return DATE;
+			case "File":
+				return FILE;
+			case "HttpClient":
+			case "HttpURLConnection":
             case "HttpResponse":
-            case "HttpRequest":
-            case "WebServiceClient":
-                return NETWORK;
-            default:
-                return OTHER;
-        }
+            case "ClientResponse":
+			case "HttpRequest":
+			case "WebServiceClient":
+				return NETWORK;
+			default:
+				return OTHER;
+		}
     }
 }
