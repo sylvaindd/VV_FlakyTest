@@ -1,28 +1,18 @@
 import com.App;
-import com.models.*;
+import com.models.ClassWarnings;
+import com.models.Params;
+import com.models.TestingParams;
+import com.models.Warning;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 
 /**
  * Created by thoma on 03/01/2017.
  */
-public class TestUnitairesCounter {
-    OutputPrettyViewer outputPrettyViewerBuilder;
-    @Before
-    public void prepareTest (){
-        TestingParams testingParams = new TestingParams();
-        testingParams.put(Params.DATE, true);
-        testingParams.put(Params.NETWORK, true);
-        testingParams.put(Params.FILE, true);
-        testingParams.put(Params.ANNOTATIONS, true);
-        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
-        app.start();
+public class TestUnitairesCounter extends AbstractTestUnitaires {
 
-        outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
-    }
-    private int checkDate(){
+    private int checkDate() {
         int dateCounter = 0;
         if (outputPrettyViewerBuilder.getClassWarningsList() != null && outputPrettyViewerBuilder.getClassWarningsList().size() > 0) {
 
@@ -35,7 +25,8 @@ public class TestUnitairesCounter {
         }
         return dateCounter;
     }
-    private int checkFile(){
+
+    private int checkFile() {
         int fileCounter = 0;
         if (outputPrettyViewerBuilder.getClassWarningsList() != null && outputPrettyViewerBuilder.getClassWarningsList().size() > 0) {
 
@@ -48,7 +39,8 @@ public class TestUnitairesCounter {
         }
         return fileCounter;
     }
-    private int checkAnnotation(){
+
+    private int checkAnnotation() {
         int annotationCounter = 0;
         if (outputPrettyViewerBuilder.getClassWarningsList() != null && outputPrettyViewerBuilder.getClassWarningsList().size() > 0) {
 
@@ -61,7 +53,8 @@ public class TestUnitairesCounter {
         }
         return annotationCounter;
     }
-    private int checkWebService(){
+
+    private int checkWebService() {
         int webserviceCounter = 0;
         if (outputPrettyViewerBuilder.getClassWarningsList() != null && outputPrettyViewerBuilder.getClassWarningsList().size() > 0) {
 
@@ -74,105 +67,120 @@ public class TestUnitairesCounter {
         }
         return webserviceCounter;
     }
+
     @Test
     public void checkDateSup1() throws Exception {
         int dateCounter = checkDate();
-        Assert.assertTrue("dateCounter "+dateCounter,checkDate()>=1);
+        Assert.assertTrue("dateCounter " + dateCounter, checkDate() >= 1);
     }
+
     @Test
     public void checkDateCount() throws Exception {
         int dateCounter = checkDate();
-        Assert.assertEquals("dateCounter "+dateCounter,4,checkDate());
+        Assert.assertEquals("dateCounter " + dateCounter, 4, checkDate());
 
     }
+
     @Test
     public void checkFileSup1() throws Exception {
         int fileCounter = checkFile();
-        Assert.assertTrue("fileCounter "+fileCounter,fileCounter>=1);
+        Assert.assertTrue("fileCounter " + fileCounter, fileCounter >= 1);
 
     }
+
     @Test
     public void checkFileCount() throws Exception {
 
         int fileCounter = checkFile();
-        Assert.assertEquals("fileCounter "+fileCounter,4,fileCounter);
+        Assert.assertEquals("fileCounter " + fileCounter, 4, fileCounter);
 
     }
+
     @Test
     public void checkAnnotationSup1() throws Exception {
 
         int annotationCounter = checkAnnotation();
-        Assert.assertTrue("annotationCounter "+annotationCounter,annotationCounter>=1);
+        Assert.assertTrue("annotationCounter " + annotationCounter, annotationCounter >= 1);
     }
+
     @Test
     public void checkAnnotationCount() throws Exception {
 
         int annotationCounter = checkAnnotation();
-        Assert.assertEquals("annotationCounter "+annotationCounter,2,annotationCounter);
+        Assert.assertEquals("annotationCounter " + annotationCounter, 2, annotationCounter);
     }
 
     @Test
     public void checkWebServiceSup1() throws Exception {
 
         int webserviceCounter = checkWebService();
-        Assert.assertTrue("Webservicecounter "+webserviceCounter,webserviceCounter>=1);
+        Assert.assertTrue("Webservicecounter " + webserviceCounter, webserviceCounter >= 1);
     }
+
     @Test
     public void checkWebServiceCount() throws Exception {
         int webserviceCounter = checkWebService();
-        Assert.assertEquals("Webservicecounter "+webserviceCounter,5,webserviceCounter);
+        Assert.assertEquals("Webservicecounter " + webserviceCounter, 5, webserviceCounter);
     }
-    @Test public void checkWebServiceOff(){
+
+    @Test
+    public void checkWebServiceOff() {
         TestingParams testingParams = new TestingParams();
         testingParams.put(Params.DATE, true);
         testingParams.put(Params.NETWORK, false);
         testingParams.put(Params.FILE, true);
         testingParams.put(Params.ANNOTATIONS, true);
-        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams, false);
         app.start();
 
         outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
         int webserviceCounter = checkWebService();
-        Assert.assertEquals("webserviceCounter"+webserviceCounter,0,webserviceCounter);
+        Assert.assertEquals("webserviceCounter" + webserviceCounter, 0, webserviceCounter);
     }
-    @Test public void checkDateOff(){
+
+    @Test
+    public void checkDateOff() {
         TestingParams testingParams = new TestingParams();
         testingParams.put(Params.DATE, false);
         testingParams.put(Params.NETWORK, true);
         testingParams.put(Params.FILE, true);
         testingParams.put(Params.ANNOTATIONS, true);
-        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams, false);
         app.start();
 
         outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
         int checkDate = checkDate();
-        Assert.assertEquals("checkDate"+checkDate,0,checkDate);
+        Assert.assertEquals("checkDate" + checkDate, 0, checkDate);
     }
-    @Test public void checkFileOff(){
+
+    @Test
+    public void checkFileOff() {
         TestingParams testingParams = new TestingParams();
         testingParams.put(Params.DATE, true);
         testingParams.put(Params.NETWORK, true);
         testingParams.put(Params.FILE, false);
         testingParams.put(Params.ANNOTATIONS, true);
-        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams, false);
         app.start();
 
         outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
         int checkFile = checkFile();
-        Assert.assertEquals("checkFile"+checkFile,0,checkFile);
+        Assert.assertEquals("checkFile" + checkFile, 0, checkFile);
     }
-    @Test public void checkAnnotationOff(){
+
+    @Test
+    public void checkAnnotationOff() {
         TestingParams testingParams = new TestingParams();
         testingParams.put(Params.DATE, true);
         testingParams.put(Params.NETWORK, true);
         testingParams.put(Params.FILE, true);
         testingParams.put(Params.ANNOTATIONS, false);
-        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams,false);
+        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams, false);
         app.start();
 
         outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
         int checkAnnotation = checkAnnotation();
-        Assert.assertEquals("checkAnnotation"+checkAnnotation,0,checkAnnotation);
+        Assert.assertEquals("checkAnnotation" + checkAnnotation, 0, checkAnnotation);
     }
 
 }
