@@ -50,7 +50,7 @@ public class FlakyTestApp {
     }
 
     private void addFolderChooser() {
-        JLabel labelSelectFolder = new JLabel("Selectionner le dossier contenant les fichiers à tester");
+        JLabel labelSelectFolder = new JLabel("Selectionner le dossier contenant les classes à tester");
         labelSelectFolder.setBorder(new EmptyBorder(0, 0, 10, 0));
         mJTextField = new JTextField(new File(System.getProperty("user.home")).getPath());
         JButton browseButton = new JButton("Browse");
