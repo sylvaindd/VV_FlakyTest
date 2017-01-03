@@ -1,8 +1,11 @@
 import com.App;
 import com.models.*;
+import org.jsoup.safety.Whitelist;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  * Created by thoma on 03/01/2017.
@@ -172,5 +175,10 @@ public class TestUnitairesCounter {
         outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
         int checkAnnotation = checkAnnotation();
         Assert.assertEquals("checkAnnotation"+checkAnnotation,0,checkAnnotation);
+    }
+    @Test
+    public void HTMLisCorrect(){
+        boolean testHTML = Jsoup.isValid(outputPrettyViewerBuilder.GenerateHTMLView(), new Whitelist());
+        Assert.assertTrue("html false",testHTML);
     }
 }
