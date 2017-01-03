@@ -4,8 +4,11 @@ package com.models;
  * Enum with the different warnings available
  */
 public enum Params {
-    DATE("Date", "Les instances de Date dans les cas de tests ne sont pas conseillés"), NETWORK("Network", "Les appels web services ne sont pas conseillés dans les cas de tests"), FILE("File",
-            "Les opérations sur les fichiers sont deconseillées dans les cas de tests"), ANNOTATIONS("Annotations", "L'annotation '@Test' pourrait être manquante");
+    DATE("Date", "Les instances de Date dans les cas de tests ne sont pas conseillés"),
+    NETWORK("Network", "Les appels web services ne sont pas conseillés dans les cas de tests"),
+    FILE("File", "Les opérations sur les fichiers sont deconseillées dans les cas de tests"),
+    ANNOTATIONS("Annotations", "L'annotation '@Test' pourrait être manquante"),
+    OTHER("Other", "Erreur detectée mais non repertoriée dans les Params");
 
     private String name;
     private String description;
@@ -37,7 +40,7 @@ public enum Params {
 			case "WebServiceClient":
 				return NETWORK;
 			default:
-				return null;
+				return OTHER;
 		}
     }
 }
