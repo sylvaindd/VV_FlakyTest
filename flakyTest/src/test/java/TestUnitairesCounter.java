@@ -94,7 +94,7 @@ public class TestUnitaires {
     public void checkFileCount() throws Exception {
 
         int fileCounter = checkFile();
-        Assert.assertEquals("fileCounter "+fileCounter,2,fileCounter);
+        Assert.assertEquals("fileCounter "+fileCounter,3,fileCounter);
 
     }
     @Test
@@ -107,7 +107,7 @@ public class TestUnitaires {
     public void checkAnnotationCount() throws Exception {
 
         int annotationCounter = checkAnnotation();
-        Assert.assertEquals("annotationCounter "+annotationCounter,2,annotationCounter);
+        Assert.assertEquals("annotationCounter "+annotationCounter,3,annotationCounter);
     }
 
     @Test
