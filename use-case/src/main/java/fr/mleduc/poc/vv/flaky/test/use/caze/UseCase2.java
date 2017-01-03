@@ -25,6 +25,8 @@ public class UseCase2 {
         else {
             FILE.delete();
         }
+		Test test = File.separator;
+		test = File.separator();
         return date.before(new Date());
     }
 

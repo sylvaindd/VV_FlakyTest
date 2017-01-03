@@ -7,15 +7,16 @@ import org.apache.commons.io.IOUtils;
 import spoon.Launcher;
 import spoon.SpoonAPI;
 import spoon.reflect.CtModel;
-import spoon.reflect.code.CtConstructorCall;
 import spoon.reflect.code.CtStatement;
 import spoon.reflect.declaration.CtAnnotation;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.factory.Factory;
 import spoon.support.reflect.code.CtFieldReadImpl;
+import spoon.support.reflect.code.CtTypeAccessImpl;
 import spoon.support.reflect.declaration.CtFieldImpl;
 import spoon.support.reflect.declaration.CtMethodImpl;
 import spoon.support.reflect.reference.CtExecutableReferenceImpl;
+import spoon.support.reflect.reference.CtTypeReferenceImpl;
 import sun.net.www.http.HttpClient;
 import sun.net.www.protocol.http.HttpURLConnection;
 
@@ -69,15 +70,15 @@ public class App {
 
             for (Map.Entry<Params, Boolean> e : testingParams.getParamsBooleanMap().entrySet()) {
                 if (e.getKey().equals(Params.DATE) && e.getValue()) {
-                    analyseTypeInstance(ctClass, classWarnings, Date.class);
+                    analyseTypeUsing(ctClass, classWarnings, Date.class);
                 } else if (e.getKey().equals(Params.NETWORK) && e.getValue()) {
-                    analyseTypeInstance(ctClass, classWarnings, HttpClient.class);
-                    analyseTypeInstance(ctClass, classWarnings, HttpURLConnection.class);
-                    analyseTypeInstance(ctClass, classWarnings, HttpResponse.class);
-                    analyseTypeInstance(ctClass, classWarnings, HttpRequest.class);
-                    analyseTypeInstance(ctClass, classWarnings, WebServiceClient.class);
+                    analyseTypeUsing(ctClass, classWarnings, HttpClient.class);
+                    analyseTypeUsing(ctClass, classWarnings, HttpURLConnection.class);
+                    analyseTypeUsing(ctClass, classWarnings, HttpResponse.class);
+                    analyseTypeUsing(ctClass, classWarnings, HttpRequest.class);
+                    analyseTypeUsing(ctClass, classWarnings, WebServiceClient.class);
                 } else if (e.getKey().equals(Params.FILE) && e.getValue()) {
-                    analyseTypeInstance(ctClass, classWarnings, File.class);
+                    analyseTypeUsing(ctClass, classWarnings, File.class);
                 } else if (e.getKey().equals(Params.ANNOTATIONS) && e.getValue()) {
                     analyseTestAnnotations(ctClass, classWarnings);
                 }
@@ -99,37 +100,50 @@ public class App {
         }
     }
 
-    private <T> void analyseTypeInstance(CtClass ctClass, ClassWarnings classWarnings, Class<T> cl) {
+    private <T> void analyseTypeUsing(CtClass ctClass, ClassWarnings classWarnings, Class<T> cl) {
         final List<String> varFieldBlackList = new ArrayList<>();
 
         final List<String> methodAlreadyCheck = new ArrayList<>();
 
-        final List<CtConstructorCall<T>> typeInstancelst = ctClass.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
-        for (CtConstructorCall<T> ctConstructorCall : typeInstancelst) {
-            if (ctConstructorCall.getParent() instanceof CtFieldImpl) {
-                varFieldBlackList.add(((CtFieldImpl) ctConstructorCall.getParent()).getSimpleName());
+        final List<CtTypeReferenceImpl<T>> typeUseLst = ctClass.getElements(element -> element.getSimpleName().equals(cl.getSimpleName()));
+        for (CtTypeReferenceImpl<T> ctTypeReference : typeUseLst) {
+            if (ctTypeReference.getParent() instanceof CtFieldImpl) {
+                varFieldBlackList.add(((CtFieldImpl) ctTypeReference.getParent()).getSimpleName());
+            }
+        }
+
+        final List<CtTypeAccessImpl<T>> typeAccessLst = ctClass.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
+        for (CtTypeAccessImpl<T> ctTypeAccess : typeAccessLst) {
+            if (ctTypeAccess.getParent() instanceof CtFieldImpl) {
+                varFieldBlackList.add(((CtFieldImpl) ctTypeAccess.getParent()).getSimpleName());
             }
         }
 
         ctClass.getMethods().stream().filter(ctMethod -> ctMethod instanceof CtMethodImpl).forEach(ctMethod -> {
             CtMethodImpl method = ((CtMethodImpl) ctMethod);
             method.getAnnotations().stream().filter(ctAnnotation -> "Test".equals(ctAnnotation.getType().getSimpleName())).forEach(ctAnnotation -> {
-                addTypeInstanceWarnings(ctClass, classWarnings, varFieldBlackList, methodAlreadyCheck, method, cl);
+                addTypeUsingWarnings(ctClass, classWarnings, varFieldBlackList, methodAlreadyCheck, method, cl);
             });
         });
     }
 
-    private <T> void addTypeInstanceWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, List<String> methodAlreadyCheck, CtMethodImpl method, Class<T> cl) {
+    private <T> void addTypeUsingWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, List<String> methodAlreadyCheck, CtMethodImpl method, Class<T> cl) {
         methodAlreadyCheck.add(method.getSimpleName());
-        final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
-        for (CtConstructorCall cc : lst) {
-            System.out.println(cl + " instanciation in test context : " + cc.getPosition());
-            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cc.getPosition().getLine()));
+        final List<CtTypeReferenceImpl> lst = method.getElements(element -> element.getSimpleName().equals(cl.getSimpleName()));
+        for (CtTypeReferenceImpl cTR : lst) {
+            System.out.println(cl + " type use in test context : " + cTR.getPosition());
+            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTR.getPosition().getLine()));
+        }
+
+        final List<CtTypeAccessImpl> lst2 = method.getElements(element -> element.type.getSimpleName().equals(cl.getSimpleName()));
+        for (CtTypeAccessImpl cTA : lst2) {
+            System.out.println(cl + " type use in test context : " + cTA.getPosition());
+            classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cTA.getPosition().getLine()));
         }
 
         final List<CtFieldReadImpl> lstFieldImpl = method.getElements(element -> true);
         lstFieldImpl.stream().filter(ctFieldRead -> varFieldBlackList.contains(ctFieldRead.getVariable().getSimpleName())).forEach(ctFieldRead -> {
-            System.out.println(cl + " instanciation in test context : " + ctFieldRead.getPosition());
+            System.out.println(cl + " type use in test context : " + ctFieldRead.getPosition());
             classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), ctFieldRead.getPosition().getLine()));
         });
 
@@ -141,7 +155,7 @@ public class App {
                     String methodName = ctExecutableReference.getSimpleName();
                     if (classTypeName.equals(ctClass.getSimpleName()) && !methodAlreadyCheck.contains(methodName)) {
                         CtMethodImpl underMethod = getMethodFromName(ctClass, methodName);
-                        addTypeInstanceWarnings(ctClass, classWarnings, varFieldBlackList, methodAlreadyCheck, underMethod, cl);
+                        addTypeUsingWarnings(ctClass, classWarnings, varFieldBlackList, methodAlreadyCheck, underMethod, cl);
                     }
                 }
             }
