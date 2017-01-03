@@ -83,7 +83,6 @@ public class App {
                     analyseTestAnnotations(ctClass, classWarnings);
                 }
             }
-
             outputPrettyViewerBuilder.addClassWarning(classWarnings);
         }
 
