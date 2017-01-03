@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.w3c.tidy.Tidy;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
@@ -30,8 +32,10 @@ public class TestUnitairesHTML {
     @Test
     public void HTMLisCorrect(){
         Tidy tidy = new Tidy();
+        tidy.setQuiet(true);
+        tidy.setErrout(null);
         InputStream stream = new ByteArrayInputStream(outputPrettyViewerBuilder.GenerateHTMLView().getBytes());
-        tidy.parse(stream, System.out);
+        tidy.parse(stream,System.out );
         Assert.assertEquals("Html error",0,tidy.getParseErrors());
     }
 }
