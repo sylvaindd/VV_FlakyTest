@@ -102,7 +102,7 @@ public class App {
 
         final List<String> methodAlreadyCheck = new ArrayList<>();
 
-        final List<CtConstructorCall<T>> typeInstancelst = ctClass.getElements(element -> element.getType().getQualifiedName().equals(cl.getCanonicalName()));
+        final List<CtConstructorCall<T>> typeInstancelst = ctClass.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
         for (CtConstructorCall<T> ctConstructorCall : typeInstancelst) {
             if (ctConstructorCall.getParent() instanceof CtFieldImpl) {
                 varFieldBlackList.add(((CtFieldImpl) ctConstructorCall.getParent()).getSimpleName());
@@ -119,7 +119,7 @@ public class App {
 
     private <T> void addTypeInstanceWarnings(CtClass ctClass, ClassWarnings classWarnings, List<String> varFieldBlackList, List<String> methodAlreadyCheck, CtMethodImpl method, Class<T> cl) {
         methodAlreadyCheck.add(method.getSimpleName());
-        final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getQualifiedName().equals(cl.getCanonicalName()));
+        final List<CtConstructorCall> lst = method.getElements(element -> element.getType().getSimpleName().equals(cl.getSimpleName()));
         for (CtConstructorCall cc : lst) {
             System.out.println(cl + " instanciation in test context : " + cc.getPosition());
             classWarnings.addWarning(new Warning(Warning.Criticality.MEDIUM, Params.getParamsForClass(cl), cc.getPosition().getLine()));
