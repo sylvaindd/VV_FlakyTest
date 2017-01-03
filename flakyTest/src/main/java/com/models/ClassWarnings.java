@@ -7,50 +7,38 @@ import java.util.List;
  * Created by 15004515 on 16/11/2016.
  */
 public class ClassWarnings {
-	private String			absolutePath;
-	private List<Warning>	warningList;
-	private String			className;
+    private String absolutePath;
+    private List<Warning> warningList;
+    private String className;
 
-	public ClassWarnings(String className, String absolutePath) {
-		this.className = className;
-		this.absolutePath = absolutePath;
-		this.warningList = new ArrayList<>();
-	}
+    public ClassWarnings(String className, String absolutePath) {
+        this.className = className;
+        this.absolutePath = absolutePath;
+        this.warningList = new ArrayList<>();
+    }
 
-	public void addWarning(Warning warning) {
-		if(getWarningFromLine(warning.getLine()) == null)
-			this.warningList.add(warning);
-	}
+    public void addWarning(Warning warning) {
+        if (getWarningFromLine(warning.getLine()) == null)
+            this.warningList.add(warning);
+    }
 
-	public List<Warning> getWarningList() {
-		return warningList;
-	}
+    public List<Warning> getWarningList() {
+        return warningList;
+    }
 
-	public String getClassName() {
-		return className;
-	}
+    public String getClassName() {
+        return className;
+    }
 
-	public Warning getWarningFromLine(int line) {
-		for (Warning warning : warningList) {
-			if (warning.getLine() == line)
-				return warning;
-		}
-		return null;
-	}
+    public Warning getWarningFromLine(int line) {
+        for (Warning warning : warningList) {
+            if (warning.getLine() == line)
+                return warning;
+        }
+        return null;
+    }
 
-	public boolean isWarningLine(int line) {
-		for (Warning warning : warningList) {
-			if (warning.getLine() == line)
-				return true;
-		}
-		return false;
-	}
-
-	public String getAbsolutePath() {
-		return absolutePath;
-	}
-
-	public void setAbsolutePath(String absolutePath) {
-		this.absolutePath = absolutePath;
-	}
+    public String getAbsolutePath() {
+        return absolutePath;
+    }
 }
