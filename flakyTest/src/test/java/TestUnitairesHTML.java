@@ -15,13 +15,15 @@ import java.io.InputStream;
  */
 public class TestUnitairesHTML extends AbstractTestUnitaires {
 
+        outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
+    }
     @Test
     public void HTMLisCorrect() {
         Tidy tidy = new Tidy();
         tidy.setQuiet(true);
         tidy.setErrout(null);
         InputStream stream = new ByteArrayInputStream(outputPrettyViewerBuilder.GenerateHTMLView().getBytes());
-        tidy.parse(stream, System.out);
+        tidy.parse(stream,System.out );
         Assert.assertEquals("Html error",0,tidy.getParseErrors());
     }
 }

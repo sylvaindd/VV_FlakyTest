@@ -12,13 +12,13 @@ public abstract class AbstractTestUnitaires {
     OutputPrettyViewer outputPrettyViewerBuilder;
 
     @Before
-    public void prepareTest() {
+    public void prepareTest(String path) {
         TestingParams testingParams = new TestingParams();
         testingParams.put(Params.DATE, true);
         testingParams.put(Params.NETWORK, true);
         testingParams.put(Params.FILE, true);
         testingParams.put(Params.ANNOTATIONS, true);
-        App app = new App("../tests_programs/FlakyTestUnitaire/", testingParams, false);
+        App app = new App(path, testingParams, false);
         app.start();
 
         outputPrettyViewerBuilder = app.getOutputPrettyViewerBuilder();
